@@ -179,6 +179,7 @@ Quick Reference
 ## 其它
 
 [Quick Reference](./docs/quickreference.md)<!--rehype:style=background: rgb(16 185 129);&class=tag&data-lang=排版说明-->  
+[Aspect Ratio](./docs/aspect-ratio.md)<!--rehype:style=background: rgb(16 185 129);-->  
 [Github Actions](./docs/github-actions.md)<!--rehype:style=background: rgb(121 184 255);-->  
 [Gitlab CI/CD](./docs/gitlab-ci.md)<!--rehype:style=background: rgb(226 67 41);&class=contributing-->  
 [Colors Named](./docs/colors-named.md)<!--rehype:style=background: rgb(16 185 129);&class=tag&data-lang=CSS-->  
@@ -208,7 +209,7 @@ Quick Reference
 <!--GAMFC--><a href="https://github.com/jaywcjlove" title="小弟调调™">
   <img src="https://avatars.githubusercontent.com/u/1680273?v=4" width="42;" alt="小弟调调™"/>
 </a>
-<a href="https://github.com/Jack-Zhang-1314" title="fw_qaq">
+<a href="https://github.com/fwqaaq" title="fw_qaq">
   <img src="https://avatars.githubusercontent.com/u/82551626?v=4" width="42;" alt="fw_qaq"/>
 </a>
 <a href="https://github.com/mofelee" title="mofelee">
@@ -343,6 +344,9 @@ Quick Reference
 <a href="https://github.com/zxx-457" title="zxx-457">
   <img src="https://avatars.githubusercontent.com/u/114141362?v=4" width="42;" alt="zxx-457"/>
 </a>
+<a href="https://github.com/eryajf" title="二丫讲梵">
+  <img src="https://avatars.githubusercontent.com/u/33259379?v=4" width="42;" alt="二丫讲梵"/>
+</a>
 <a href="https://github.com/lvzhenbo" title="吕振波">
   <img src="https://avatars.githubusercontent.com/u/32427677?v=4" width="42;" alt="吕振波"/>
 </a>
@@ -359,7 +363,7 @@ Quick Reference
 ## 国内镜像网站
 <!--rehype:wrap-style=text-align: center;max-width: 650px;margin: 0 auto;&class=home-title-reset-->
 
-由于中国国内访问，时常打不开，你可以访问下面镜像网站。推荐自己的[镜像网站](https://github.com/jaywcjlove/reference/issues/102#issue-1451649637)
+由于中国国内访问，时常打不开，你可以访问下面镜像网站。推荐自己的[镜像网站](https://github.com/jaywcjlove/reference/discussions/206#discussion-4625735)
 
 [quickref.cn](https://quickref.cn)<!--rehype:target=_blank-->
 [ecdata.cn](http://ref.ecdata.cn)<!--rehype:target=_blank-->
@@ -377,10 +381,13 @@ Quick Reference
 [linzhe.top](https://linzhe.top/)<!--rehype:target=_blank-->
 [xushanxiang.com](https://xushanxiang.com/ref/)<!--rehype:target=_blank-->
 [winnerzr01.github.io](https://winnerzr01.github.io/Quick-Reference/index.html)<!--rehype:target=_blank&class=contributing&data-info=👆需要梯子-->
-[ref.isteed.cc](https://ref.isteed.cc/)<!--rehype:target=_blank-->
-[quickref.hestudio.org](https://quickref.hestudio.org)<!--rehype:target=_blank-->
-[ref.surcode.cn](https://ref.surcode.cn)<!--rehype:target=_blank-->
-[quickref.hestudio.org](https://quickref.hestudio.org)<!--rehype:target=_blank-->
+[isteed.cc](https://ref.isteed.cc/)<!--rehype:target=_blank-->
+[hestudio.org](https://quickref.hestudio.org)<!--rehype:target=_blank-->
+[surcode.cn](https://ref.surcode.cn)<!--rehype:target=_blank-->
+[hestudio.org](https://quickref.hestudio.org)<!--rehype:target=_blank-->
+[cms.im](https://quickref.cms.im/)<!--rehype:target=_blank-->
+[nuomiphp.com](https://reference.tool.nuomiphp.com/)<!--rehype:target=_blank-->
+[eryajf.net](https://ref.eryajf.net/)<!--rehype:target=_blank-->
 <!--rehype:class=home-card home-links-->
 
 如果你有资源，可以很方便部署 web 版，这非常简单，只需要克隆 [gh-pages](https://github.com/jaywcjlove/reference/tree/gh-pages) 分支代码到你的静态服务就可以了，还可以使用 [docker](https://hub.docker.com/r/wcjiang/reference) 快捷部署 web 版。

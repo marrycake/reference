@@ -152,6 +152,23 @@ VARIABLE ?= value
 VARIABLE += value
 ```
 
+#### override
+
+如果变量前不指定 `override`，那么命令行中指定的变量可以对 Makefile 中的变量重新定义。
+
+```makefile
+# 不会重新定义
+override VARIABLE = value
+override VARIABLE := value
+override VARIABLE ?= value
+override VARIABLE += value
+override define
+  #...
+endef
+```
+
+<!--rehype:className=auto-wrap-->
+
 ### 变量
 
 需要使用 `$()` 或者 `${}` 对变量进行引用
@@ -284,7 +301,7 @@ $ make main
 # 此时 cc  main.c -o main
 ```
 
-#### `$&`
+#### `$%`
 
 `$%`: 仅当目标是函数库文件中，表示规则中的目标成员名
 
@@ -292,6 +309,231 @@ $ make main
 * unix 中是 `.a` 文件
 
 <!--rehype:className=style-round-->
+
+### 内置命名变量的参数
+<!--rehype:wrap-class=col-span-2-->
+
+这些变量都是相关下面的命令的参数。如果没有指明其默认值，那么其默认值都是空。
+
+:-       | :-
+:-       | :-
+`ARFLAGS`  | 函数库打包程序AR命令的参数。默认值是 `rv`
+`ASFLAGS`  | 汇编语言编译器参数。（当明显地调用 `.s` 或 `.S` 文件时）
+`CFLAGS`   | C 语言编译器参数。
+`CXXFLAGS` | C++ 语言编译器参数。
+`COFLAGS`  | RCS 命令参数。
+`CPPFLAGS` | C 预处理器参数。（ `C` 和 `Fortran` 编译器也会用到）。
+`FFLAGS`   | Fortran 语言编译器参数。
+`GFLAGS`   | SCCS `get` 程序参数。
+`LDFLAGS`  | 链接器参数。（如：`ld` ）
+`PFLAGS`   | Pascal 语言编译器参数。
+`LFLAGS`   | Lex 文法分析器参数。
+`RFLAGS`   | Ratfor 程序的 Fortran 编译器参数。
+`YFLAGS`   | Yacc 文法分析器参数。
+<!--rehype:className=left-align-->
+
+### 内置已命名的变量
+<!--rehype:wrap-class=col-span-2-->
+
+:-         | :-
+:-         | :-
+`AR`       | 函数库打包程序。默认命令是 `ar`
+`AS`       | 汇编语言编译程序。默认命令是 `as`
+`CC`       | C 语言编译程序。默认命令是 `cc`
+`CXX`      | C++ 语言编译程序。默认命令是 `g++`
+`CO`       | 从 RCS 文件中扩展文件程序。默认命令是 `co`
+`CPP`      | C 程序的预处理器（输出是标准输出设备）。默认命令是 `$(CC) –E`
+`FC`       | Fortran 和 Ratfor 的编译器和预处理程序。默认命令是 `f77`
+`GET`      | 从 SCCS 文件中扩展文件的程序。默认命令是 `get`
+`LEX`      | Lex 方法分析器程序（针对于 C 或 Ratfor）。默认命令是 `lex`
+`PC`       | Pascal 语言编译程序。默认命令是 `pc`
+`YACC`     | Yacc 文法分析器（针对于 C 程序）。默认命令是 `yacc`
+`YACCR`    | Yacc 文法分析器（针对于 Ratfor 程序）。默认命令是 `yacc –r`
+`MAKEINFO` | 转换 Texinfo 源文件（.texi）到 Info 文件程序。默认命令是 `makeinfo`
+`TEX`      | 从 TeX 源文件创建TeX DVI文件的程序。默认命令是 `tex`
+`TEXI2DVI` | 从 Texinfo 源文件创建 TeX DVI 文件的程序。默认命令是 `texi2dvi`
+`WEAVE`    | 转换 Web 到 TeX 的程序。默认命令是 `weave`
+`CWEAVE`   | 转换 C Web 到 TeX 的程序。默认命令是 `cweave`
+`TANGLE`   | 转换 Web 到 Pascal 语言的程序。默认命令是 `tangle`
+`CTANGLE`  | 转换 C Web 到 C。默认命令是 `ctangle`
+`RM`       | 删除文件命令。默认命令是 `rm –f`
+<!--rehype:className=left-align-->
+
+#### 内置的变量
+
+```makefile
+run:
+	${CC} -o main main.c
+```
+
+书写规则
+---
+
+### 通配符
+
+#### `*`
+
+`*`：与 linux 系统下的一样
+
+```makefile
+# 清除所有 .o 结尾的文件
+clean:
+    rm -f *.o
+```
+
+#### `~`
+
+`~`：在 linux 或 mac 下表示用户目录，win 下表示 `HOME` 环境变量
+
+```makefile
+run:
+    ls ~
+```
+
+#### `?`
+
+`?`: 与在 linux 等类似，可以匹配单个字符
+
+```makefile
+run:
+	ls -ll packag?.json
+```
+
+### 文件搜寻（`vpath`）
+
+如果没有指定 vpath 变量，make 只会在当前的目录中去寻找依赖文件和目标文件。否则，如果当前目录没有，就会到指定的目录中去寻找
+
+:-                              | :-
+:-                              | :-
+`vpath <pattern> <directories>` | 为符合模式 \<pattern> 的文件指定搜索目录 \<directories>
+`vpath <pattern>`               | 清除符合模式<pattern>的文件的搜索目录。
+`vpath`                         | 清除所有已被设置好了的文件搜索目录
+
+#### `%`
+
+* vpath使用方法中的 \<pattern> 需要包含 `%` 字符。
+* `%` 的意思是匹配零或若干字符
+* 并且引用规则是需要使用**自动变量**
+
+```makefile
+vpath %.c dist
+TARGET = hello
+OBJ = bar.o foo.o
+
+$(TARGET): $(OBJ)
+	$(CC) -o $@ $^
+
+%.o: $.c
+	$(CC) -o $< -o #@
+```
+
+<!--rehype:className=auto-wrap-->
+
+### 静态模式
+
+```makefile
+TARGET: PREREQUISITES :PREREQUISITES
+  COMMAMD
+#...
+```
+
+* `target` 定义了一系列的目标文件
+* 第一个 `prerequisites` 是指明了 target 的模式，也就是的目标集模式。
+* 第二个 `prerequisites` 是目标的依赖模式，它对第一个 `prerequisites` 形成的模式再进行一次依赖目标的定义
+
+```makefile
+objects = foo.o main.o
+
+$(objects): %.o: %.c
+	$(CC) -c $(CFLAGS) $< -o $@
+```
+
+---
+相当于:
+
+```makefile
+foo.o : foo.c
+    $(CC) -c $(CFLAGS) foo.c -o foo.o
+main.o : main.c
+    $(CC) -c $(CFLAGS) main.c -o main.o
+```
+
+### 伪目标
+
+* **伪目标**并不是一个文件，只是一个标签。只有通过显式地指明这个**目标**才能让其生效
+* 使用 `.PHONY` 来显式地指明目标是 `伪目标`
+
+```makefile
+.PHONY : clean
+clean :
+    rm *.o temp
+```
+
+<!--rehype:className=style-round-->
+<!--rehype:className=auto-wrap-->
+
+命令
+---
+
+### 回声（`@`）
+
+正常情况下，make会打印每条命令，然后再执行，这就叫做回声（echoing）
+
+```makefile
+all:
+  # 会有命令执行显示
+	echo Hello, world
+```
+
+---
+
+```makefile
+all:
+  # 不会有命令执行的显示
+	@echo Hello, world
+```
+
+<!--rehype:className=auto-wrap-->
+
+### 显示命令、禁止命令
+
+#### 显示命令
+
+如果我们只希望显示命令，而不希望执行命令，可以使用 `-n` 或者 `--just-print`
+
+```bash
+$ make all --just-print 
+$ make all -n 
+```
+
+#### 禁止命令
+
+`-s` 或 `--silent` 或 `--quiet` 与 `@` 一样，用于禁止回声
+
+```bash
+$ make all -s 
+```
+
+<!--rehype:className=auto-wrap-->
+
+### 执行命令
+
+使用 tab 及换行
+
+```makefile
+exec:
+    cd /home/hchen
+    pwd
+```
+
+---
+
+使用 `;`
+
+```makefile
+exec:
+    cd /home/hchen; pwd
+```
 
 另见
 ---
