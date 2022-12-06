@@ -1299,6 +1299,125 @@ let b = "str".as_bytes().to_vec();
 let s = String::from_utf8(b).unwrap();
 ```
 
+测试
+-----
+
+### 编写一个测试
+
+这是一个测试模块的标准写法
+
+```rust
+
+#[cfg(test)]    //注解, 表示此模块为测试模块
+mod tests {
+    #[test]     //注解, 表示函数为测试函数
+    fn it_works() {{
+        assert_eq!(2 + 2, 4);
+    }}
+}
+```
+
+运行
+
+```rust
+使用命令cargo test
+cargo test {1} -- {2} // {1}处指定cargo命令, {2}处指定对测试文件的命令
+                      // 可以使用cargo test --help 和 cargo test -- --help 分别查看
+```
+
+使用宏来检查结果
+
+```rust
+assert!(param)   // ---> param 需要为一个bool类型
+assert_eq!(param1, param2)  // --->检查param1, param2是否相等, 不通过时分别打印param1, param2的值
+assert_ne!(param1, param2)  // --->检查param1, param2是否不相等
+
+使用过程中一些注意点:
+1. 程序中的输出, 例如print!("something")会被捕获, 只有在测试失败时该捕获才会被输出, 可以使用 cargo test --nocapture 来禁用
+
+自定义错误信息:
+assert!(result(), "Greeting did not contain name, value was {}", value);
+
+```
+
+测试中使用注解
+
+```rust
+#[should_panic]     // ---> 如果程序中不产生panic测试失败
+```
+
+### 控制如何测试
+
+并行或连续的测试
+
+```rust
+在rust中, 默认所有测试并行进行
+可以使用cargo test -- --test-threads=1 指定串行测试
+```
+
+显示函数输出
+
+```rust
+1. 成功测试的输出将配捕获, 不会出现在测试总结中
+2. 失败测试总结中, 不仅会出现失败测试的输出, 也会显示失败原因
+3. 可以使用cargo test --nocapture 指定禁止捕获
+```
+
+测试过滤
+
+```rust
+运行单个测试
+cargo test test_name    //注意不能使用此方法指定多个测试
+
+过滤运行多个测试
+cargo test param   //通过给定参数匹配运行匹配字符串的测试, 例如param = add, test有add_1, add_2, sum_1, sub_1, 则只有add_1,, add2会运行
+
+忽略某些测试
+#[ignore]   // 通过对注解添加此测试表示当cargo test时此测试不会被运行, 除非 cargo test --ignored表示只运行ignore测试
+```
+
+### 测试模块
+
+测试模块
+
+```rust
+//使用#[cfg(test)]表示此模块为测试模块
+#[cfg(test)]
+mod test{   //为什么要使用测试模块, 测试模块可以更好的帮助我们跟踪错误
+
+}
+```
+
+测试私有函数
+
+```rust
+fn function ();
+mod test{
+    use super::*;     //对于私有函数, 需要在此处将测试包引入
+    #[test]
+    fn test_function() {
+        function();
+    }
+}
+```
+
+目录测试
+
+```rust
+tree: 
+--project
+    --test
+    --adder
+
+//test目录是一个测试目录
+//当我们需要在test目录中测试adder中相关功能时
+extern crate adder;
+#[test]
+fn it_adds_two() {
+    assert_eq!(4, adder::add_two(2));
+}
+```
+
 杂项
 -----
 
@@ -1319,6 +1438,41 @@ let type_casted: i64 = orginal as i64;
 ```
 
 要在 `Rust` 中执行类型转换，必须使用 `as` 关键字
+
+### 生命周期
+<!--rehype:wrap-class=row-span-2-->
+
+自动赋予生命周期规则
+
+```rust
+对于rust来说, 所有参数都需要指定生命周期, 但是rust给与了三条规则可以自动帮助我们赋予生命周期
+1. 为函数的每一个变量各自赋予生命周期
+    df function<'a, 'b>(param1: &'a str, param2: &'b str)
+2. 当函数参数只有一个时, 为返回值自动赋予与传入值一样的生命周期
+    df function<'a>(param1: &'a str) -> result: &'a str
+3. 当函数参数包含&self, &mut self 时, 为返回值赋予与self一致的生命周期
+    df function<'a, 'b>(&self: &'a, param2: &str: &'b str) -> result: &'a str
+```
+
+手动生命周期
+
+```rust
+当违反上述规则时需手动赋予
+//例如
+//作用域'a表示取参数参数作用域中最小的一个
+fn the_bigger_one_withlabel<'a, T>(str1: &'a str, str2: &'a str, label: T) -> &'a str
+where
+    T: Display,
+{
+    println!("{}", label);
+    if str1 > str2 {
+        str1
+    } else {
+        str2
+    }
+}
+
+```
 
 ### 借用
 
