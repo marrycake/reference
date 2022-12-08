@@ -80,6 +80,7 @@ Quick Reference
 [Sass](./docs/sass.md)<!--rehype:style=background: rgb(207 100 154);&class=tag&data-lang=CSS-->  
 [HTML](./docs/html.md)<!--rehype:style=background: rgb(228 77 39);-->  
 [JavaScript](./docs/javascript.md)<!--rehype:style=background: rgb(203 183 31);-->  
+[jQuery](./docs/jquery.md)<!--rehype:style=background: rgb(203 183 31);-->  
 [Less.js](./docs/lessjs.md)<!--rehype:style=background: rgb(29 54 93);&class=tag&data-lang=CSS-->  
 [Next.js](./docs/nextjs.md)<!--rehype:style=background: rgb(0 0 0);&class=tag&data-lang=React-->  
 [React](./docs/react.md)<!--rehype:style=background: rgb(34 143 173);-->  
@@ -237,6 +238,9 @@ Quick Reference
 <a href="https://github.com/ryanhex53" title="ryanhex53">
   <img src="https://avatars.githubusercontent.com/u/360426?v=4" width="42;" alt="ryanhex53"/>
 </a>
+<a href="https://github.com/eryajf" title="二丫讲梵">
+  <img src="https://avatars.githubusercontent.com/u/33259379?v=4" width="42;" alt="二丫讲梵"/>
+</a>
 <a href="https://github.com/catcto" title="喵仙人">
   <img src="https://avatars.githubusercontent.com/u/5467932?v=4" width="42;" alt="喵仙人"/>
 </a>
@@ -344,9 +348,6 @@ Quick Reference
 </a>
 <a href="https://github.com/zxx-457" title="zxx-457">
   <img src="https://avatars.githubusercontent.com/u/114141362?v=4" width="42;" alt="zxx-457"/>
-</a>
-<a href="https://github.com/eryajf" title="二丫讲梵">
-  <img src="https://avatars.githubusercontent.com/u/33259379?v=4" width="42;" alt="二丫讲梵"/>
 </a>
 <a href="https://github.com/lvzhenbo" title="吕振波">
   <img src="https://avatars.githubusercontent.com/u/32427677?v=4" width="42;" alt="吕振波"/>
