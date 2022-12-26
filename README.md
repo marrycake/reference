@@ -161,6 +161,7 @@ Quick Reference
 ## 数据库
 
 [MySQL](./docs/mysql.md)<!--rehype:style=background: rgb(1 117 143);&class=tag&data-lang=SQL-->  
+[MongoDB](./docs/mongodb.md)<!--rehype:style=background: rgb(0 237 100);-->  
 [Oracle](./docs/oracle.md)<!--rehype:style=background: rgb(255 0 0);&class=tag&data-lang=SQL-->  
 [PostgreSQL](./docs/postgres.md)<!--rehype:style=background: rgb(43 109 163);&class=tag&data-lang=SQL-->  
 [Redis](./docs/redis.md)<!--rehype:style=background: rgb(198 47 44);-->  
@@ -177,6 +178,7 @@ Quick Reference
 [Gitlab](./docs/gitlab.md)<!--rehype:style=background: rgb(226 67 41);-->  
 [Google Chrome](./docs/google-chrome.md)<!--rehype:style=background: rgb(29 116 232);-->  
 [IntelliJ IDEA](./docs/intelli-j-idea.md)<!--rehype:style=background: rgb(223 148 0);&class=tag&data-lang=Java-->  
+[PyCharm](./docs/pycharm.md)<!--rehype:style=background: rgb(36 215 137);&class=tag&data-lang=Python-->  
 [Sketch](./docs/sketch.md)<!--rehype:style=background: rgb(223 148 0);&class=tag&data-lang=macOS-->  
 [Sublime Text](./docs/sublime-text.md)<!--rehype:style=background: rgb(223 148 0);-->  
 [VSCode](./docs/vscode.md)<!--rehype:style=background: rgb(91 163 230);-->  
