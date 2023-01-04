@@ -1299,6 +1299,191 @@ let b = "str".as_bytes().to_vec();
 let s = String::from_utf8(b).unwrap();
 ```
 
+智能指针
+-----
+
+### Box
+
+Box智能指针允许将值存放在堆上
+使用场景:
+
+1. 编译时大小未知的类型
+2. 当有大量数据并希望数据不被拷贝
+3. 当希望拥有一个值并只关心是否是实现了特定trait
+
+```rust
+//使用Box<T> 在堆上存储数据
+fn main() {
+    let b = Box::new(5);    //此时堆上存储了一个i32的值
+    println!("b = {}", b);
+}
+```
+
+```rust
+//使用Box<T> 创建递归类型
+//因为rust程序语言在编译时需要知道类型的占用空间, 所以类似
+//let list = Cons(1, Cons(2, Cons(3, Nil)));这样的递归是不可行的
+enum List{
+    Cons(i32, Box<List>),
+    Nil,
+}
+
+use List::{Cons, Nil};
+
+fn main() {
+    let list = Cons(1, Box::new(Cons(2, Box::new(3, Nil))));//因为Box只是一个指向内存的指针, 所以类型拥有固定大小
+}
+```
+
+### Rc
+
+Rc计数智能指针: 注意只能在单线程中使用
+使用场景:
+
+1. 当希望堆上的数据供程序的多个部分读取
+
+示例:
+
+```rust
+enum List{
+    Cons(i32, Rc<List>),
+    Nill,
+}
+
+use List::{Cons, Nil};
+use std::rc::Rc;
+
+fn main() {
+    let a = Rc::new(Cons(5, Rc::new(Cons(10, Rc::new(Nil)))));
+    let b = Cons(3, Rc::clone(&a));
+    let c = Cons(4, Rc::clone(&a));
+}
+
+//当调用Rc::clone方法时只会增加堆中数据的引用计数, 实际数据并不会被拷贝
+//当计数为0时数据会被清零
+//使用Rc引用计数时要注意是否会导致循环引用导致内存泄露
+```
+
+### RefCell
+
+RefCell允许在运行时检查借用规则
+意味着可以在运行时的得到一个不可变值的可变借用
+使用RefCell允许在运行时改变一个不可变的值
+
+```rust
+use std::{borrow::Borrow, cell::RefCell};
+
+fn main() {
+    let message = RefCell::new(55);
+    println!("{}", message.borrow());
+    let mut msg = message.borrow_mut();
+    *msg = 66;
+    println!("{}", msg);
+    
+}
+```
+
+并发编程
+-----
+
+### 线程
+
+```rust
+use std::thread;
+use std::time:Duration;
+
+fn main() {
+    let handle = thread::spawn(||{     //使用该方法创建一个线程
+        for i in 1..10{
+            println!("hi number {} from the spawned thread!", i);
+            thread::sleep(Duration::from_millis(1));
+        }
+    })
+
+    for i in 1..10{
+        println!("hi number {} from the spawned thread!", i);
+        thread::sleep(Duration::from_millis(1));
+    }
+
+    handle.join().unwrap();    //主线程等待该线程运行结束
+
+
+}
+```
+
+### 消息传递
+<!--rehype:wrap-class=col-span-2 row-span-2-->
+使用观察者模式, 在底层使用channel, 可以拥有多个生产者
+
+```rust
+use std::thread;
+use std::sync::mpsc;
+use std::time:Duration;
+
+fn main() {
+    let (tx, rx) = mpsc::channel();
+
+    let tx1 = mpsc::Sender::clone(&tx);
+    thread::spawn(move || {
+        let vals = vec![
+            String::from("hi"),
+            String::from("from"),
+            String::from("the"),
+            String::from("thread");
+        ];
+
+        for val in vals {
+            tx1.send(val).unwrap();
+            thread::sleep(Duration::from_secs(1));
+        }
+    })
+
+        thread::spawn(move || {
+        let vals = vec![
+            String::from("1"),
+            String::from("2"),
+            String::from("3"),
+            String::from("4");
+        ];
+
+        for val in vals {
+            tx.send(val).unwrap();
+            thread::sleep(Duration::from_secs(1));
+        }
+    })
+
+    for received in rx {
+        println!("Got: {}", received);
+    }
+}
+
+```
+
+### 共享状态
+
+```rust
+use std::sync::{Mutex, Arc};
+use std::thread;
+
+fn main() {
+    let counter = Arc::new(Mutex::new(5)); //使用引用计数的原因是进入线程会移交所有权
+    let mut handles = vec![];
+
+    for _ in 0..10 {
+        let counter = Arc::clone(&counter);  
+        let handle = thread::spawn(move || {
+            let mut num = counter.lock.unwrap();
+            *mut += 1;
+        });
+        handles.push(handle);
+    }
+
+    for handle in handles {
+        handle.join().unwrap();
+    }
+}
+```
+
 测试
 -----
 
